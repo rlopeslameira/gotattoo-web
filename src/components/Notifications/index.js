@@ -1,0 +1,77 @@
+import React, {useState, useEffect, useMemo} from 'react';
+
+import { Container, Badge, NotificationList, Notification, Scroll } from './styles';
+import { MdNotifications } from 'react-icons/md';
+
+import { formatDistance, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt-BR';
+
+import api from '~/services/api';
+
+function Notifications() {
+
+  const [visible, setVisible] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const hasUnread = useMemo(
+    () => !!notifications.find(notification => notification.read === false),
+    [notifications]
+  );
+
+  useEffect(() => {
+    async function loadNotifications (){
+      const response = await api.get('/notifications');
+
+      const data = response.data.map(notification => ({
+        ...notification,
+        timeDistance: formatDistance(parseISO(notification.createdAt),
+        new Date(), 
+        {addSuffix: true, locale: pt})
+      }))
+
+      setNotifications(data);
+    }
+    
+    loadNotifications();
+
+  }, []);
+
+  function handleSetVisible(){
+    setVisible(!visible);
+  }
+
+  async function handleMarkAsRead(id){
+    await api.put(`/notifications/${id}`);
+    
+    setNotifications(
+      notifications.map(notification => 
+        notification._id === id ? {...notification, read: true} : notification
+      )
+    );
+  }
+
+  return (
+    <Container>
+      <Badge onClick={handleSetVisible} hasUnread={hasUnread}>
+        <MdNotifications color="#162447" size={20}/>
+      </Badge>
+    
+      <NotificationList visible={visible}>
+        <Scroll>
+          {notifications.map(notification => (
+            <Notification key={notification._id} unRead={!notification.read}>
+              <p>{notification.content}</p>
+              <time>{notification.timeDistance}</time>
+              {!notification.read && (
+                <button type="button" onClick={() => handleMarkAsRead(notification._id)}>
+                  Marcar como lida
+                </button>
+              )}
+            </Notification>
+          ))}
+        </Scroll>
+      </NotificationList>
+    </Container>
+  );
+}
+
+export default Notifications;
