@@ -1,28 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { Container, Content, Profile } from './styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { Container, Content, Profile, Menu, Fechar } from './styles';
 
 import Notifications from '~/components/Notifications/';
 import logo from '~/assets/logo.png'
+import { signOut } from '~/store/modules/auth/actions';
+
+import { MdMenu, MdClose } from 'react-icons/md';
 
 function Header() {
+  const [menuShow, setMenuShow] = useState(false);
+  
+  const dispatch = useDispatch();
+
+  const profile = useSelector(state => state.user.profile);
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  function handleOpenMenu(){
+    setMenuShow(!menuShow);
+  }
+
+  function handleSignOut(){
+    dispatch(signOut());
+  }
+
   return (
     <Container>
       <Content>
         <nav>
-          <img src={logo} alt="GoTattoo" width={45} height={45}/>  
-          <Link to="/dashboard">Dashboard</Link>
+          <img src={logo} alt="GoTattoo" width={45} height={45}/> 
+  
+          {!menuShow && <MdMenu size={40} onClick={handleOpenMenu}/>}
         </nav>
 
+        <Menu id="menu" className="menu" showMenu={menuShow}>
+          <Fechar>
+            <MdClose size={40} onClick={handleOpenMenu}/>
+          </Fechar>
+          <Link to="/scheduling" onClick={() => setMenuShow(false)}>Novo Agendamento</Link>
+          <Link to="/dashboard" onClick={() => setMenuShow(false)}>Agenda</Link>
+          <Link to="/profile" onClick={() => setMenuShow(false)}>Meus Dados</Link>
+          <Link to="/" onClick={handleSignOut}>Sair</Link>
+        </Menu>
+
         <aside>
-          <Notifications/>
+          {/* <Notifications/> */}
           <Profile>
             <div>
-              <strong>Maickon Farias</strong>
-              <Link to="/profile">Meu Perfil</Link>
+              <strong>{profile.name}</strong>
+              <small>{timezone}</small>
             </div>
-            <img width={45} height={45} src="https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy" alt="Maickon Farias"/>
+            <img width={45} height={45} src={profile.avatar ? profile.avatar.url : "https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy"} alt={profile.name}/>
           </Profile>
         </aside>
       </Content>

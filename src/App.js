@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import {Router} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+import 'react-image-lightbox/style.css';
+import 'react-day-picker/lib/style.css';
 import GlobalStyle from './styles/global';
 
 import Routes from './routes';

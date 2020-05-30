@@ -8,6 +8,8 @@ import SingUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 
+import Scheduling from '../pages/Scheduling';
+
 export default function Routes() {
   return (
     <Switch>
@@ -16,6 +18,7 @@ export default function Routes() {
       
       <Route path="/dashboard" component={Dashboard} isPrivate/>
       <Route path="/profile" component={Profile} isPrivate/>
+      <Route path="/scheduling/:date?" component={Scheduling} isPrivate/>
     </Switch>
   )
 

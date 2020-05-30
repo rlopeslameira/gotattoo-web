@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 
+import tattoo from '~/assets/tattoo.png';
+
 import api from '~/services/api';
 import { Container } from './styles';
 
-function AvatarInput() {
+function TattooInput() {
 
-  const { defaultValue, registerField } = useField('avatar');
+  const { defaultValue, registerField } = useField('tattoo');
 
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url)
@@ -17,7 +19,7 @@ function AvatarInput() {
     if (ref.current)
     {
       registerField({
-        name: 'avatar_id',
+        name: 'tattoo_id',
         ref: ref.current,
         path: 'dataset.file'
       })
@@ -40,7 +42,7 @@ function AvatarInput() {
   return (
     <Container>
       <label htmlFor="avatar">
-        <img src={preview || 'https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy'} alt=""/>
+        <img src={preview || tattoo} alt=""/>
         <input 
         type="file" 
         id="avatar" 
@@ -48,10 +50,12 @@ function AvatarInput() {
         data-file={file}
         onChange={handleChange} 
         ref={ref}/>
-
       </label>
+      <strong>
+        Selecione a imagem
+      </strong>
     </Container>
   );
 }
 
-export default AvatarInput;
+export default TattooInput;

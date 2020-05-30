@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  align-self: center;
-  margin-bottom:  30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom:  10px;
+  width: 100%;
 
   label {
     cursor: pointer;
@@ -14,7 +17,6 @@ export const Container = styled.div`
     img {
       height: 120px;
       width: 120px;
-      border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, 0.3);
       background: #EEE;
     }
@@ -23,4 +25,12 @@ export const Container = styled.div`
       display: none;
     }
   }
+
+  strong {
+    display: block;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 10px;
+  }
+
+  
 `;

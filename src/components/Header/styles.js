@@ -16,6 +16,7 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
+    min-width: 140px;
 
     img {
       margin-right: 20px;
@@ -23,9 +24,14 @@ export const Content = styled.div`
       border-right: 1px solid #EEE;
     }
 
-    a{
+    a {
       font-weight: bold;
       color: #162447;
+      margin-left: 15px;
+    }
+
+    svg {
+      cursor: pointer;
     }
   }
 
@@ -36,6 +42,42 @@ export const Content = styled.div`
 
 `;
 
+export const Menu = styled.div`
+  top: 0;
+  left: 0;
+  z-index: 99999;
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	background: #1f4068;
+	padding-top: 6px;
+  transform:  ${props => props.showMenu ? 'translateX(0%)' : 'translateX(-100%)'};
+	transition: transform 0.7s ease;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    font-weight: bold;
+    color: #FFF;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+`;
+
+export const Fechar = styled.button`
+  display: flex;
+  margin-bottom: 20px;
+  background: none;
+  border: 0;
+  align-self: flex-end;
+  margin-right: 20px;
+  padding: 5px;
+  color: #FFF;
+  cursor: pointer;
+`;
 
 export const Profile = styled.div`
   display: flex;
@@ -47,7 +89,7 @@ export const Profile = styled.div`
     display: flex;
     flex-direction: column;
     text-align: right;
-    margin-right: 10px;
+    margin-right: 6px;
     justify-content: center;
     
     strong {
@@ -61,10 +103,15 @@ export const Profile = styled.div`
       font-size: 12px;
       color: #999;
     }
+
+    small {
+      font-size: 10px;
+    }
   }
 
   img {
     height: 45px;
+    width: 45px;
     border-radius: 50%;
     border: 1px solid #999;
   }
