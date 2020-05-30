@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 
-import tattoo from '~/assets/tattoo.png';
+import tattoo from '../../../assets/tattoo.png';
 
-import api from '~/services/api';
+import api from '../../../services/api';
 import { Container } from './styles';
 
 function TattooInput() {

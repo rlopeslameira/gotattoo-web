@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input} from '@rocketseat/unform';
-import { setHours, setMinutes, setSeconds, isBefore, parseISO } from 'date-fns';
+import { setHours, setMinutes, setSeconds, isBefore } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz'
 import { toast } from 'react-toastify';
 import DayPicker  from 'react-day-picker';
-import { MdAdd, MdPhoto, MdEventBusy } from 'react-icons/md';
+import { MdPhoto, MdEventBusy } from 'react-icons/md';
 import Lightbox from 'react-image-lightbox';
 
 import { Container, ContentDatePicker, Time, Options } from './styles';
-import { MONTHS , WEEKDAYS_LONG, WEEKDAYS_SHORT } from '~/services/datepicker';
-import api from '~/services/api';
-import range from '~/services/ranger';
+import { MONTHS , WEEKDAYS_LONG, WEEKDAYS_SHORT } from '../../services/datepicker';
+import api from '../../services/api';
+import range from '../../services/ranger';
 import TattooInput from './TattooInput';
 
 function Scheduling() {

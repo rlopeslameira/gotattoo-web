@@ -6,7 +6,7 @@ import { MdNotifications } from 'react-icons/md';
 import { formatDistance, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
-import api from '~/services/api';
+import api from '../../services/api';
 
 function Notifications() {
 

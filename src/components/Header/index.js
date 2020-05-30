@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Content, Profile, Menu, Fechar } from './styles';
 
-import Notifications from '~/components/Notifications/';
-import logo from '~/assets/logo.png'
-import { signOut } from '~/store/modules/auth/actions';
+// import Notifications from '~/components/Notifications/';
+import logo from '../../assets/logo.png'
+import { signOut } from '../../store/modules/auth/actions';
 
 import { MdMenu, MdClose } from 'react-icons/md';
 

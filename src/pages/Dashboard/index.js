@@ -1,5 +1,5 @@
 import React, {useState, useMemo, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight, MdAdd } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore,
           parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
@@ -7,10 +7,10 @@ import { utcToZonedTime } from 'date-fns-tz'
 
 import { Container, Time } from './styles';
 
-import range from '~/services/ranger';
+import range from '../../services/ranger';
 
-import api from '~/services/api';
-import { toast } from 'react-toastify';
+import api from '../../services/api';
+// import { toast } from 'react-toastify';
 
 function Dashboard() {
 
@@ -65,14 +65,14 @@ function Dashboard() {
     setDate(addDays(date, 1));
   }
 
-  function handleOpenScheduling(time){
-    if (time.past || time.appointment)
-    {
-      toast.warning('Operação não permitida.')
-      return;
-    }
-    console.log(time);
-  }
+  // function handleOpenScheduling(time){
+  //   if (time.past || time.appointment)
+  //   {
+  //     toast.warning('Operação não permitida.')
+  //     return;
+  //   }
+  //   console.log(time);
+  // }
 
   return (
     <Container>
