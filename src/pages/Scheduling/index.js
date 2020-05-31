@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input} from '@rocketseat/unform';
-import { setHours, setMinutes, setSeconds, isBefore } from 'date-fns';
+import { setHours, setMinutes, setSeconds, isBefore, formatRelative } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz'
 import { toast } from 'react-toastify';
 import DayPicker  from 'react-day-picker';
 import { MdPhoto, MdEventBusy } from 'react-icons/md';
 import Lightbox from 'react-image-lightbox';
+import { SemipolarLoading } from 'react-loadingg';
 
 import { Container, ContentDatePicker, Time, Options } from './styles';
 import { MONTHS , WEEKDAYS_LONG, WEEKDAYS_SHORT } from '../../services/datepicker';
@@ -18,9 +19,12 @@ function Scheduling() {
   const [date, setDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     async function loadSchedule(){
+      setLoading(true);
       const response = await api.get('/schedules', {
         params: {date}
       });
@@ -47,8 +51,9 @@ function Scheduling() {
         }
       });
 
-      console.log(data);
       setShcedule(data);
+
+      setLoading(false);
     }
 
     loadSchedule();
@@ -75,6 +80,10 @@ function Scheduling() {
     setShcedule(data);
   }
 
+  function handleDayClick(date){
+    setDate(date);
+  }
+
   async function handleSubmit(data){
     const { name } = data;
 
@@ -98,12 +107,9 @@ function Scheduling() {
 
   }
 
-  function handleDayClick(date){
-    setDate(date);
-  }
-
   return (
     <Container>
+     
       {isOpen && (
           <Lightbox
             mainSrc={image.src}
@@ -111,7 +117,7 @@ function Scheduling() {
             imageTitle={image.title}
             imageCaption={image.title}
           />
-        )}
+      )}
       <Form onSubmit={handleSubmit}>
         <ContentDatePicker>
           <DayPicker 
@@ -121,36 +127,46 @@ function Scheduling() {
           weekdaysShort={WEEKDAYS_SHORT}
           onDayClick={handleDayClick}
           selectedDays={date}
-         />
+        />
         </ContentDatePicker>
 
-        <ul>
-          {shcedule.map(time =>
-            <Time key={time.time} selected={time.selected} past={time.past} avaliable={!time.appointment} onClick={() => handleSelectHour(time)}>
-              <div className="detalhes">
-                <strong >{time.time}</strong>
-                <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
-              </div>
-              {time.appointment && (
-              <Options>
-                <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
-                  <MdPhoto size={30} color="#FFF"/>
-                </button>
-                <button type="button">
-                  <MdEventBusy size={30} color="#FFF"/>
-                </button>
-              </Options>
+        {loading ?  (
+          <div id="carregando">
+            <SemipolarLoading style={{ position: 'relative', alignSelf: 'center',}}/>
+            Carregando
+          </div>
+        ) : (
+          <>
+            <ul>
+              {shcedule.map(time =>
+                <Time key={time.time} selected={time.selected} past={time.past} avaliable={!time.appointment} onClick={() => handleSelectHour(time)}>
+                  <div className="detalhes">
+                    <strong >{time.time}</strong>
+                    <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
+                  </div>
+                  {time.appointment && (
+                  <Options>
+                    <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
+                      <MdPhoto size={30} color="#FFF"/>
+                    </button>
+                    <button type="button">
+                      <MdEventBusy size={30} color="#FFF"/>
+                    </button>
+                  </Options>
+                  )}
+                </Time>
               )}
-            </Time>
-          )}
-        </ul>
-        
-        <TattooInput name="tattoo_id"/>
+            </ul>
+            
+            <Input name="name" placeholder="Nome Completo" />
+            
+            <TattooInput name="tattoo_id"/>
 
-        <Input name="name" placeholder="Nome Completo" />
-
-        <button type="submit">Salvar </button>
+            <button type="submit">Salvar agendamento</button>
+          </>
+        )}
       </Form>
+       
     </Container>
   );
 }

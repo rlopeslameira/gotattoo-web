@@ -84,6 +84,8 @@ export const Profile = styled.div`
   margin-left: 20px;
   padding-left: 20px;
   border-left: 1px solid #EEE;
+  cursor: pointer;
+
 
   div {
     display: flex;

@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 
-import tattoo from '../../../assets/tattoo.png';
-
 import api from '../../../services/api';
 import { Container } from './styles';
+import { MdAddAPhoto } from 'react-icons/md';
+
+import { WaveLoading } from 'react-loadingg';
 
 function TattooInput() {
 
@@ -12,7 +13,7 @@ function TattooInput() {
 
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url)
-
+  const [loading, setLoading] = useState(false);
   const ref = useRef();
 
   useEffect(() => {
@@ -27,6 +28,7 @@ function TattooInput() {
   }, [ref, registerField]);
 
   async function handleChange(e){
+    setLoading(true);
     const data = new FormData();
     data.append('file', e.target.files[0]);
 
@@ -36,24 +38,36 @@ function TattooInput() {
 
     setPreview(url);
     setFile(id);
-
+    setLoading(false);
   }
 
   return (
     <Container>
-      <label htmlFor="avatar">
-        <img src={preview || tattoo} alt=""/>
-        <input 
-        type="file" 
-        id="avatar" 
-        accept="image/*" 
-        data-file={file}
-        onChange={handleChange} 
-        ref={ref}/>
-      </label>
-      <strong>
-        Selecione a imagem
-      </strong>
+      <div>
+        <input id="tattoo_txt" type="text" readOnly value={preview || 'Selecione uma imagem'}/>
+        <label htmlFor="avatar">
+          <MdAddAPhoto id="icon" size={40} color="#FFF"/>
+          <input 
+          type="file" 
+          id="avatar" 
+          accept="image/*" 
+          data-file={file}
+          onChange={handleChange} 
+          ref={ref}/>
+        </label>
+      </div>
+      {loading ? (
+        <div id="carregando">
+          <WaveLoading style={{ position: 'relative', alignSelf: 'center', width: '50%'}}/>
+          Carregando
+        </div>
+      ) : (
+        <>
+          {preview && (
+            <img src={preview} alt=""/>
+          )}
+        </>
+      )}
     </Container>
   );
 }

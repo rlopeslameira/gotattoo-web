@@ -26,7 +26,7 @@ function SignUp() {
 
   return (
     <>
-      <img src={logo} alt="GoBarber"/>
+      <img src={logo} alt="GoBarber" width={140} height={140}/>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="name" placeholder="Nome completo"/>
         <Input name="email" type="email" placeholder="Seu e-mail"/>

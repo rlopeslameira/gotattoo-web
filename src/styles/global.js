@@ -41,4 +41,13 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  #carregando{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.4);
+    width: 100%;
+  }
+  
 `;

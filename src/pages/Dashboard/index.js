@@ -11,11 +11,13 @@ import range from '../../services/ranger';
 
 import api from '../../services/api';
 // import { toast } from 'react-toastify';
+import { SemipolarLoading } from 'react-loadingg';
 
 function Dashboard() {
 
   const [date, setDate] = useState(new Date());
   const [shcedule, setShcedule] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dateFormated = useMemo(
     () => format(date, "d 'de' MMMM", {locale: pt}),
@@ -24,6 +26,7 @@ function Dashboard() {
 
   useEffect(() => {
     async function loadSchedule(){
+      setLoading(true);
       const response = await api.get('/schedules', {
         params: {date}
       });
@@ -52,6 +55,7 @@ function Dashboard() {
         }
       })
       setShcedule(data);
+      setLoading(false);
     }
 
     loadSchedule();
@@ -76,32 +80,41 @@ function Dashboard() {
 
   return (
     <Container>
-      <header>
-        <button type="button" onClick={handlePrevDay}>
-          <MdChevronLeft size={36} color="#FFF"/>
-        </button>
-        <strong>{dateFormated}</strong>
-        <button type="button" onClick={handleNextDay}>
-          <MdChevronRight size={36} color="#FFF"/>
-        </button>
-      </header>
+      {loading ? (
+        <div id="carregando">
+          <SemipolarLoading style={{ position: 'relative', alignSelf: 'center',}}/>
+          Carregando
+        </div>
+      ) : (
+        <>
+          <header>
+            <button type="button" onClick={handlePrevDay}>
+              <MdChevronLeft size={36} color="#FFF"/>
+            </button>
+            <strong>{dateFormated}</strong>
+            <button type="button" onClick={handleNextDay}>
+              <MdChevronRight size={36} color="#FFF"/>
+            </button>
+          </header>
 
-      <ul>
-        {shcedule.map(time => (
-          <Time key={time.time} past={time.past} avaliable={!time.appointment}>
-            <div>
-              <strong >{time.time}</strong>
-              <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
-            </div>
-            {/* {!time.past && !time.appointment && (
-              <button type="button" onClick={() => handleOpenScheduling(time)}>
-                <MdAdd size={20}/>
-                Adicionar
-              </button>
-            )} */}
-          </Time>
-        ))}
-      </ul>
+          <ul>
+            {shcedule.map(time => (
+              <Time key={time.time} past={time.past} avaliable={!time.appointment}>
+                <div>
+                  <strong >{time.time}</strong>
+                  <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
+                </div>
+                {/* {!time.past && !time.appointment && (
+                  <button type="button" onClick={() => handleOpenScheduling(time)}>
+                    <MdAdd size={20}/>
+                    Adicionar
+                  </button>
+                )} */}
+              </Time>
+            ))}
+          </ul>
+        </>
+      )}
     </Container>
   );
 }
