@@ -38,9 +38,12 @@ export const Time = styled.li`
   background: ${props => props.avaliable ? '#FFF' : '#1f4068'} ;
   opacity: ${props => props.past ? 0.6 : 1};
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  cursor: ${props => props.avaliable ? 'pointer' : 'auto'};;
+
+  background: ${props => props.selected && '#00FA9A'} ;
   
-  div {
+  .detalhes {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -61,15 +64,17 @@ export const Time = styled.li`
   }
   
   button {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+    width: 30px;
+    height: 30px;
     padding: 5px;
     border-radius: 4px;
-    background: #162447;
-    color: #FFF;
+    background: none;
     border: 0;
+    margin-top: 5px;
+    margin-right: 10px;
   }
+`;
+
+export const Options = styled.div`
+  width: 100%;  
 `;

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input} from '@rocketseat/unform';
-import { setHours, setMinutes, setSeconds, isBefore, formatRelative } from 'date-fns';
+import { setHours, setMinutes, setSeconds, isBefore } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz'
 import { toast } from 'react-toastify';
 import DayPicker  from 'react-day-picker';
 import { MdPhoto, MdEventBusy } from 'react-icons/md';
 import Lightbox from 'react-image-lightbox';
 import { SemipolarLoading } from 'react-loadingg';
+
+// import history from '../../services/history';
 
 import { Container, ContentDatePicker, Time, Options } from './styles';
 import { MONTHS , WEEKDAYS_LONG, WEEKDAYS_SHORT } from '../../services/datepicker';
@@ -20,6 +22,7 @@ function Scheduling() {
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
 
   useEffect(() => {
@@ -43,7 +46,7 @@ function Scheduling() {
         return {
           time: `${hour}:00h`,
           past: isBefore(compareDate, new Date()),
-          date,
+          date: compareDate,
           selected: false,
           appointment: schedulesList.find(a => 
             a.timezonedate === compareDate.toGMTString()
@@ -85,7 +88,26 @@ function Scheduling() {
   }
 
   async function handleSubmit(data){
-    const { name } = data;
+    setSaving(true);
+
+    const { name, tattoo_id } = data;
+
+    const time = shcedule.find(item => item.selected);
+
+    
+    if (!time)
+    {
+      toast.error('Selecione um horário.');
+      return;
+    }
+
+    if (!name)
+    {
+      toast.error('Informe o nome do.');
+      return;
+    }
+
+    const tattoo = tattoo_id ? tattoo_id : null;
 
     const requestClient = await api.post('/clients', {
       name,
@@ -97,14 +119,29 @@ function Scheduling() {
       return;
     }
 
-    const cliente = requestClient.data;
-
-    const requestAppointment = await api.post('/appointments', cliente);
+    const appointment = {
+      user_id: requestClient.data.id,
+      date: time.date,
+      tattoo_id: tattoo,
+    }
+    const requestAppointment = await api.post('/appointments', appointment);
 
     if (requestAppointment.data){
       toast.success('Agendamento feito com sucesso!');
     }
+    setSaving(false);
+    window.location.reload(false);
 
+  }
+
+  async function handleCancel(id){
+    const deleteAppointment = await api.delete(`/appointments/${id}`);
+    if (deleteAppointment.data){
+      toast.info('Agendamento cancelado com sucesso!');
+      window.location.reload(false);
+    }else{
+      toast.error('Erro ao tentar cancelar o agendamento, tente novamente mais tarde!');
+    }
   }
 
   return (
@@ -146,23 +183,28 @@ function Scheduling() {
                   </div>
                   {time.appointment && (
                   <Options>
-                    <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
-                      <MdPhoto size={30} color="#FFF"/>
-                    </button>
-                    <button type="button">
-                      <MdEventBusy size={30} color="#FFF"/>
-                    </button>
+                    {time.appointment.tattoo && (
+                      <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
+                        <MdPhoto size={30} color="#FFF"/>
+                      </button>
+                    )}
+
+                    {!time.past && (
+                      <button type="button">
+                        <MdEventBusy size={30} color="#FF6347" onClick={() => handleCancel(time.appointment.id)}/>
+                      </button>
+                    )}
                   </Options>
                   )}
                 </Time>
               )}
             </ul>
             
-            <Input name="name" placeholder="Nome Completo" />
+            <Input name="name" placeholder="Nome do Cliente" />
             
             <TattooInput name="tattoo_id"/>
 
-            <button type="submit">Salvar agendamento</button>
+            <button type="submit">{saving ? 'Criando agendamento' : 'Salvar agendamento'}</button>
           </>
         )}
       </Form>

@@ -1,23 +1,24 @@
 import React, {useState, useMemo, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdPhoto, MdEventBusy } from 'react-icons/md';
 import { format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore,
           parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { utcToZonedTime } from 'date-fns-tz'
-
-import { Container, Time } from './styles';
-
-import range from '../../services/ranger';
-
-import api from '../../services/api';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import Lightbox from 'react-image-lightbox';
 import { SemipolarLoading } from 'react-loadingg';
+
+import { Container, Time, Options } from './styles';
+import range from '../../services/ranger';
+import api from '../../services/api';
 
 function Dashboard() {
 
   const [date, setDate] = useState(new Date());
   const [shcedule, setShcedule] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [image, setImage] = useState(null);
 
   const dateFormated = useMemo(
     () => format(date, "d 'de' MMMM", {locale: pt}),
@@ -69,17 +70,32 @@ function Dashboard() {
     setDate(addDays(date, 1));
   }
 
-  // function handleOpenScheduling(time){
-  //   if (time.past || time.appointment)
-  //   {
-  //     toast.warning('Operação não permitida.')
-  //     return;
-  //   }
-  //   console.log(time);
-  // }
+  function handleSetImage(src, title){
+    setIsOpen(true);
+    setImage({src, title});
+  }
+
+  async function handleCancel(id){
+    const deleteAppointment = await api.delete(`/appointments/${id}`);
+    if (deleteAppointment.data){
+      toast.info('Agendamento cancelado com sucesso!');
+      window.location.reload(false);
+    }else{
+      toast.error('Erro ao tentar cancelar o agendamento, tente novamente mais tarde!');
+    }
+  }
 
   return (
     <Container>
+      {isOpen && (
+          <Lightbox
+            mainSrc={image.src}
+            onCloseRequest={() => setIsOpen(false)}
+            imageTitle={image.title}
+            imageCaption={image.title}
+          />
+      )}
+
       {loading ? (
         <div id="carregando">
           <SemipolarLoading style={{ position: 'relative', alignSelf: 'center',}}/>
@@ -104,12 +120,21 @@ function Dashboard() {
                   <strong >{time.time}</strong>
                   <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
                 </div>
-                {/* {!time.past && !time.appointment && (
-                  <button type="button" onClick={() => handleOpenScheduling(time)}>
-                    <MdAdd size={20}/>
-                    Adicionar
-                  </button>
-                )} */}
+                {time.appointment && (
+                  <Options>
+                    {time.appointment.tattoo && (
+                      <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
+                        <MdPhoto size={30} color="#FFF"/>
+                      </button>
+                    )}
+
+                    {!time.past && (
+                      <button type="button">
+                        <MdEventBusy size={30} color="#FF6347" onClick={() => handleCancel(time.appointment.id)}/>
+                      </button>
+                    )}
+                  </Options>
+                  )}
               </Time>
             ))}
           </ul>
