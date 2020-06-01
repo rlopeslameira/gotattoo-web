@@ -11,4 +11,4 @@ const LoadingIndicator = props => {
   );
 }
 
-ReactDOM.render(<div><App /><LoadingIndicator /></div>, document.getElementById('root'));
+ReactDOM.render(<><App /><LoadingIndicator /></>, document.getElementById('root'));
