@@ -114,6 +114,7 @@ export const Profile = styled.div`
   img {
     height: 45px;
     width: 45px;
+    object-fit: contain;
     border-radius: 50%;
     border: 1px solid #999;
   }

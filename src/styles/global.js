@@ -49,5 +49,23 @@ export default createGlobalStyle`
     color: rgba(255, 255, 255, 0.4);
     width: 100%;
   }
+
+  .loading-indicator {    
+    background: rgba(255,255,255,0.5);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    img {
+      position: relative;
+      left: 50%;
+      top: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
+  }
   
 `;

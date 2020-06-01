@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {darken} from 'polished';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -122,5 +122,7 @@ export const Time = styled.li`
 `;
 
 export const Options = styled.div`
-  width: 100%;  
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
 `;
