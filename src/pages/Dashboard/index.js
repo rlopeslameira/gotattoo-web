@@ -116,7 +116,7 @@ function Dashboard() {
           <ul>
             {shcedule.map(time => (
               <Time key={time.time} past={time.past} avaliable={!time.appointment}>
-                <div>
+                <div className="detalhes">
                   <strong >{time.time}</strong>
                   <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
                 </div>
