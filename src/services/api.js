@@ -4,7 +4,7 @@ import WaveLoading from 'react-loadingg/lib/WaveLoading';
 
 const api = axios.create({
   // baseURL: 'http://localhost:3333',
-  baseURL: 'https://gotattoo.herokuapp.com',
+  baseURL: 'http://142.93.123.111',
 });
 
 api.interceptors.request.use(function (config) {
