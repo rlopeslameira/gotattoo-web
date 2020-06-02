@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import WaveLoading from 'react-loadingg/lib/WaveLoading';
+import https from 'https';
 
 const api = axios.create({
   // baseURL: 'http://localhost:3333',
