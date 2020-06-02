@@ -5,7 +5,9 @@ import WaveLoading from 'react-loadingg/lib/WaveLoading';
 const api = axios.create({
   // baseURL: 'http://localhost:3333',
   baseURL: 'http://142.93.123.111',
-  httpAgent: { rejectUnauthorized: false },
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  })
 });
 
 api.interceptors.request.use(function (config) {
