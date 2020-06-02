@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import WaveLoading from 'react-loadingg/lib/WaveLoading';
-import https from 'https';
+import http from 'http';
 
 const api = axios.create({
   // baseURL: 'http://localhost:3333',
   baseURL: 'http://142.93.123.111',
-  httpsAgent: new https.Agent({
+  httpAgent: new http.Agent({
     rejectUnauthorized: false
-  })
+  }),
 });
 
 api.interceptors.request.use(function (config) {
