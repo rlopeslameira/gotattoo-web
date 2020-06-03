@@ -4,11 +4,10 @@ import WaveLoading from 'react-loadingg/lib/WaveLoading';
 import http from 'http';
 
 const api = axios.create({
-  // baseURL: 'http://localhost:3333',
-  baseURL: 'http://142.93.123.111',
-  httpAgent: new http.Agent({
-    rejectUnauthorized: false
-  }),
+  baseURL: 'http://gotattoo.nodejs7003.uni5.net:21051',
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  }
 });
 
 api.interceptors.request.use(function (config) {
