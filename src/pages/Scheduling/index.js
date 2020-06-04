@@ -21,7 +21,6 @@ function Scheduling() {
   const [date, setDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(null);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     async function loadSchedule() {
@@ -194,18 +193,9 @@ function Scheduling() {
         <Input name="name" placeholder="Nome do Cliente" />
 
         <TattooInput name="tattoo_id" />
-        {saving ? (
-          <div id="carregando">
-            <SemipolarLoading style={{ position: 'relative', alignSelf: 'center' }} />
-                  Criando Agendamento
-          </div>
-
-        ) : (
-            <button type="submit">
-              Salvar agendamento
-            </button>
-          )}
-
+        <button type="submit">
+          Salvar agendamento
+          </button>
       </Form>
 
     </Container>

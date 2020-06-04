@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 
-import api from '../../../services/api';
 import { Container } from './styles';
 import { MdAddAPhoto } from 'react-icons/md';
 
@@ -17,8 +16,7 @@ function TattooInput() {
   const ref = useRef();
 
   useEffect(() => {
-    if (ref.current)
-    {
+    if (ref.current) {
       registerField({
         name: 'tattoo_id',
         ref: ref.current,
@@ -27,7 +25,7 @@ function TattooInput() {
     }
   }, [ref, registerField]);
 
-  async function handleChange(e){
+  async function handleChange(e) {
     setLoading(true);
 
     const file = e.target.files[0];
@@ -57,7 +55,7 @@ function TattooInput() {
         }
         canvas.width = width;
         canvas.height = height;
-        var ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var dataurl = canvas.toDataURL("image/png");
         setPreview(dataurl);
@@ -67,37 +65,36 @@ function TattooInput() {
     reader.readAsDataURL(file);
 
     setLoading(false);
-    console.log(reader);
-    
+
   }
 
   return (
     <Container>
       <div>
-        <input id="tattoo_txt" type="text" readOnly value={preview || 'Selecione uma imagem'}/>
+        <input id="tattoo_txt" type="text" readOnly value={preview || 'Selecione uma imagem'} />
         <label htmlFor="avatar">
-          <MdAddAPhoto id="icon" size={40} color="#FFF"/>
-          <input 
-          type="file" 
-          id="avatar" 
-          accept="image/*" 
-          data-file={file}
-          onChange={handleChange} 
-          ref={ref}/>
+          <MdAddAPhoto id="icon" size={40} color="#FFF" />
+          <input
+            type="file"
+            id="avatar"
+            accept="image/*"
+            data-file={file}
+            onChange={handleChange}
+            ref={ref} />
         </label>
       </div>
       {loading ? (
         <div id="carregando">
-          <WaveLoading style={{ position: 'relative', alignSelf: 'center', width: '50%'}}/>
+          <WaveLoading style={{ position: 'relative', alignSelf: 'center', width: '50%' }} />
           Carregando
         </div>
       ) : (
-        <>
-          {preview && (
-            <img src={preview} alt=""/>
-          )}
-        </>
-      )}
+          <>
+            {preview && (
+              <img src={preview} alt="" />
+            )}
+          </>
+        )}
     </Container>
   );
 }

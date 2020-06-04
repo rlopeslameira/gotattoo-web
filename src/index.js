@@ -6,7 +6,7 @@ import carregando from './assets/carregando.gif';
 const LoadingIndicator = props => {
   return (
     <div id="loadingIncicator" style={{ display: 'none', }}>
-      <img src={carregando} />
+      <img src={carregando} alt="Imagem" />
     </div>
   );
 }
