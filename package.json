@@ -1,8 +1,7 @@
 {
   "name": "site",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": true,
-  "homepage": "http://www.gotattoo.app",
   "dependencies": {
     "@rocketseat/unform": "^1.6.2",
     "@testing-library/jest-dom": "^4.2.4",

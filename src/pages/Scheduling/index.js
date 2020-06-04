@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import DayPicker from 'react-day-picker';
 import { MdPhoto, MdEventBusy } from 'react-icons/md';
 import Lightbox from 'react-image-lightbox';
-import { SemipolarLoading } from 'react-loadingg';
 
 // import history from '../../services/history';
 

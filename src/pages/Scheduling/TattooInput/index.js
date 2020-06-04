@@ -15,13 +15,15 @@ function TattooInput() {
   const [loading, setLoading] = useState(false);
   const ref = useRef();
 
+  setFile(defaultValue && defaultValue.id);
+
   useEffect(() => {
     if (ref.current) {
       registerField({
         name: 'tattoo_id',
         ref: ref.current,
         path: 'dataset.file'
-      })
+      });
     }
   }, [ref, registerField]);
 
