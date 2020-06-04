@@ -14,8 +14,7 @@ function AvatarInput() {
   const ref = useRef();
 
   useEffect(() => {
-    if (ref.current)
-    {
+    if (ref.current) {
       registerField({
         name: 'avatar_id',
         ref: ref.current,
@@ -24,13 +23,13 @@ function AvatarInput() {
     }
   }, [ref, registerField]);
 
-  async function handleChange(e){
+  async function handleChange(e) {
     const data = new FormData();
     data.append('file', e.target.files[0]);
 
     const response = await api.post('/files', data);
-    
-    const {id, url} = response.data;
+
+    const { id, url } = response.data;
 
     setPreview(url);
     setFile(id);
@@ -40,14 +39,14 @@ function AvatarInput() {
   return (
     <Container>
       <label htmlFor="avatar">
-        <img src={preview || 'https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy'} alt=""/>
-        <input 
-        type="file" 
-        id="avatar" 
-        accept="image/*" 
-        data-file={file}
-        onChange={handleChange} 
-        ref={ref}/>
+        <img src={preview || 'https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy'} alt="Avatar" />
+        <input
+          type="file"
+          id="avatar"
+          accept="image/*"
+          data-file={file}
+          onChange={handleChange}
+          ref={ref} />
 
       </label>
     </Container>
