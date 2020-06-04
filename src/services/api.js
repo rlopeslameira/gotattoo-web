@@ -4,10 +4,7 @@ import WaveLoading from 'react-loadingg/lib/WaveLoading';
 import http from 'http';
 
 const api = axios.create({
-  baseURL: 'http://gotattoo.nodejs7003.uni5.net:21051',
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-  }
+  baseURL: 'http://192.241.135.234:81/',
 });
 
 api.interceptors.request.use(function (config) {
