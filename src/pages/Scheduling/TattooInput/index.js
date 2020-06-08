@@ -15,8 +15,6 @@ function TattooInput() {
   const [loading, setLoading] = useState(false);
   const ref = useRef();
 
-  setFile(defaultValue && defaultValue.id);
-
   useEffect(() => {
     if (ref.current) {
       registerField({
@@ -25,6 +23,7 @@ function TattooInput() {
         path: 'dataset.file'
       });
     }
+
   }, [ref, registerField]);
 
   async function handleChange(e) {
@@ -65,6 +64,7 @@ function TattooInput() {
       img.src = e.target.result;
     }
     reader.readAsDataURL(file);
+    setFile(file);
 
     setLoading(false);
 

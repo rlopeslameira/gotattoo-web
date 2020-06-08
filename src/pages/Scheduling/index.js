@@ -23,7 +23,11 @@ function Scheduling() {
 
   useEffect(() => {
     async function loadSchedule() {
-      const response = await api.get('/schedules');
+      const response = await api.get('/schedules', {
+        params: {
+          date
+        }
+      });
 
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
