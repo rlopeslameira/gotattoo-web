@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.241.135.234:81/',
+  baseURL: 'https://gotattoo.app/api/',
 });
 
 api.interceptors.request.use(function (config) {
