@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch }  from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Route from './Route'
 
 import SignIn from '../pages/SignIn';
@@ -13,12 +13,12 @@ import Scheduling from '../pages/Scheduling';
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={SignIn}/>
-      <Route path="/register" component={SingUp}/>
-      
-      <Route path="/dashboard" component={Dashboard} isPrivate/>
-      <Route path="/profile" component={Profile} isPrivate/>
-      <Route path="/scheduling/:date?" component={Scheduling} isPrivate/>
+      <Route path="/" exact component={SignIn} />
+      <Route path="/register" component={SingUp} />
+
+      <Route path="/dashboard" component={Dashboard} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
+      <Route path="/scheduling" component={Scheduling} isPrivate />
     </Switch>
   )
 
