@@ -153,7 +153,7 @@ function Scheduling() {
           imageCaption={image.title}
         />
       )}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} style={{ padding: 10, }}>
         <ContentDatePicker>
           <DayPicker
             locale="pt"
