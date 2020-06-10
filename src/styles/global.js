@@ -25,7 +25,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
-  body, input, button {
+  body, input, button, textarea {
     font: 14px 'Roboto', sans-serif;
   }
 
@@ -43,7 +43,7 @@ export default createGlobalStyle`
 
   #carregando{
     display: flex;
-    flex: 1;
+    height: 70px;
     flex-direction: column;
     align-items: center;
     color: rgba(255, 255, 255, 0.4);

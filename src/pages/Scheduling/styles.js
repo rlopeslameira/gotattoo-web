@@ -29,6 +29,23 @@ export const Container = styled.div`
       }
     }
 
+    textarea {
+      background: rgba(0,0,0, 0.2);
+      border: 0;
+      border-radius: 4px;
+      padding: 15px;
+      color: #fff;
+      margin: 0 0 5px;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      &:focus {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+
     
     > button {
       margin: 5px 0 0 ;

@@ -62,11 +62,12 @@ function TattooInput() {
         setPreview(dataurl);
       }
       img.src = e.target.result;
+      setLoading(false);
     }
     reader.readAsDataURL(file);
     setFile(file);
 
-    setLoading(false);
+    
 
   }
 

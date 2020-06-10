@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Textarea } from '@rocketseat/unform';
 import { setHours, setMinutes, setSeconds, isBefore } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz'
 import { toast } from 'react-toastify';
@@ -85,7 +85,7 @@ function Scheduling() {
   async function handleSubmit(data) {
 
     // inicia a validação
-    const { name } = data;
+    const { name, detalhes } = data;
     const time = shcedule.find(item => item.selected);
 
     if (!time) {
@@ -100,6 +100,7 @@ function Scheduling() {
 
     const requestClient = await api.post('/clients', {
       name,
+      detalhes,
     });
 
     if (!requestClient.data.id) {
@@ -194,6 +195,9 @@ function Scheduling() {
         <Input name="name" placeholder="Nome do Cliente" />
 
         <TattooInput name="tattoo_id" />
+
+        <Textarea rows={5} name="detalhes" placeholder="Outras informações" />
+
         <button type="submit">
           Salvar agendamento
           </button>
