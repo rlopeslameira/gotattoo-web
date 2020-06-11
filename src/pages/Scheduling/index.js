@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Textarea } from '@rocketseat/unform';
-import { setHours, setMinutes, setSeconds, isBefore } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz'
+import { setHours, setMinutes, setSeconds, isBefore, format } from 'date-fns';
 import { toast } from 'react-toastify';
 import DayPicker from 'react-day-picker';
 import { MdPhoto, MdEventBusy } from 'react-icons/md';
@@ -29,24 +28,20 @@ function Scheduling() {
         }
       });
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
       const schedulesList = response.data.map(item => ({
         ...item,
-        timezonedate: utcToZonedTime(item.date, timezone).toGMTString()
       }));
 
       const data = range.map(hour => {
-        const checkDate = setSeconds(setMinutes(setHours(date, hour), 0), 0);
-        const compareDate = utcToZonedTime(checkDate, timezone);
+        const compareDate = setSeconds(setMinutes(setHours(date, hour), 0), 0);
 
         return {
           time: `${hour}:00h`,
           past: isBefore(compareDate, new Date()),
-          date: compareDate,
-          selected: false,
+          date: format(compareDate, 'yyyy-MM-dd'),
+          hour: `${hour}:00`,
           appointment: schedulesList.find(a =>
-            a.timezonedate === compareDate.toGMTString()
+            a.date === format(date, 'yyyy-MM-dd') && a.hour === `${hour}:00`
           )
         }
       });
@@ -85,7 +80,7 @@ function Scheduling() {
   async function handleSubmit(data) {
 
     // inicia a validação
-    const { name, detalhes } = data;
+    const { name, detalhes, details } = data;
     const time = shcedule.find(item => item.selected);
 
     if (!time) {
@@ -120,9 +115,11 @@ function Scheduling() {
     }
 
     const appointment = {
-      user_id: requestClient.data.id,
+      client_id: requestClient.data.id,
       date: time.date,
+      hour: time.hour,
       tattoo_id: tattoo,
+      details,
     }
     const requestAppointment = await api.post('/appointments', appointment);
 
@@ -171,12 +168,12 @@ function Scheduling() {
             <Time key={time.time} selected={time.selected} past={time.past} avaliable={!time.appointment} onClick={() => handleSelectHour(time)}>
               <div className="detalhes">
                 <strong >{time.time}</strong>
-                <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
+                <span>{time.appointment ? time.appointment.client.name : 'Livre'}</span>
               </div>
               {time.appointment && (
                 <Options>
                   {time.appointment.tattoo && (
-                    <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
+                    <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.client.name)}>
                       <MdPhoto size={30} color="#FFF" />
                     </button>
                   )}
@@ -196,7 +193,7 @@ function Scheduling() {
 
         <TattooInput name="tattoo_id" />
 
-        <Textarea rows={5} name="detalhes" placeholder="Outras informações" />
+        <Textarea rows={5} name="details" placeholder="Outras informações" />
 
         <button type="submit">
           Salvar agendamento

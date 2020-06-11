@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdPhoto, MdEventBusy } from 'react-icons/md';
 import {
   format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore,
-  parseISO
+  parseISO, subHours
 } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { utcToZonedTime } from 'date-fns-tz'
@@ -27,33 +27,32 @@ function Dashboard() {
 
   useEffect(() => {
     async function loadSchedule() {
+
       const response = await api.get('/schedules', {
         params: { date }
       });
 
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
       const schedulesList = response.data.map(item => ({
-        ...item,
-        dataFormated: parseISO(item.date),
-        timezonedate: utcToZonedTime(item.date, timezone).toGMTString()
+        ...item
       }));
 
+      console.log(schedulesList);
+
       const data = range.map(hour => {
-        const checkDate = setSeconds(setMinutes(setHours(date, hour), 0), 0);
-        const compareDate = utcToZonedTime(checkDate, timezone);
+        const compareDate = setSeconds(setMinutes(setHours(date, hour), 0), 0);
 
         return {
           time: `${hour}:00h`,
-          compareDate: compareDate.toGMTString(),
-          checkDate: checkDate.toGMTString(),
-          timezone,
           past: isBefore(compareDate, new Date()),
+          date: format(compareDate, 'yyyy-MM-dd'),
+          hour: `${hour}:00`,
           appointment: schedulesList.find(a =>
-            a.timezonedate === compareDate.toGMTString()
+            a.date === format(date, 'yyyy-MM-dd') && a.hour === `${hour}:00`
           )
         }
       })
+
+      console.log(data);
       setShcedule(data);
     }
 
@@ -109,12 +108,15 @@ function Dashboard() {
           <Time key={time.time} past={time.past} avaliable={!time.appointment}>
             <div className="detalhes">
               <strong >{time.time}</strong>
-              <span>{time.appointment ? time.appointment.user.name : 'Livre'}</span>
+              <span>{time.appointment ? time.appointment.client.name : 'Livre'}</span>
+              {time.appointment && (
+                <span>{time.appointment.details}</span>
+              )}
             </div>
             {time.appointment && (
               <Options>
                 {time.appointment.tattoo && (
-                  <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.user.name)}>
+                  <button type="button" onClick={() => handleSetImage(time.appointment.tattoo.url, time.appointment.client.name)}>
                     <MdPhoto size={30} color="#FFF" />
                   </button>
                 )}
