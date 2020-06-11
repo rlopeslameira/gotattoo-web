@@ -1,11 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdPhoto, MdEventBusy } from 'react-icons/md';
 import {
-  format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore,
-  parseISO, subHours
-} from 'date-fns';
+  format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore} from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { utcToZonedTime } from 'date-fns-tz'
 import { toast } from 'react-toastify';
 import Lightbox from 'react-image-lightbox';
 
@@ -52,7 +49,6 @@ function Dashboard() {
         }
       })
 
-      console.log(data);
       setShcedule(data);
     }
 
