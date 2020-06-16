@@ -1,9 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdPhoto, MdEventBusy } from 'react-icons/md';
-import {
-  format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore, parseISO
-} from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore} from 'date-fns';
 
 import pt from 'date-fns/locale/pt-BR';
 import { toast } from 'react-toastify';

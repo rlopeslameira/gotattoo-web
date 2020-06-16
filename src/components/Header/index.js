@@ -16,7 +16,6 @@ function Header() {
   const dispatch = useDispatch();
 
   const profile = useSelector(state => state.user.profile);
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   function handleOpenMenu(){
     setMenuShow(!menuShow);
@@ -35,7 +34,7 @@ function Header() {
     <Container>
       <Content>
         <nav>
-          <img src={logo} alt="GoTattoo" width={45} height={45}/> 
+          <img src={logo} alt="GoTattoo" width={45} height={45} onClick={() => history.push('/dashboard')}/> 
   
           {!menuShow && <MdMenu size={40} onClick={handleOpenMenu}/>}
         </nav>
@@ -51,11 +50,9 @@ function Header() {
         </Menu>
 
         <aside>
-          {/* <Notifications/> */}
           <Profile onClick={handleClickPerfil}>
             <div>
               <strong >{profile.name}</strong>
-              <small>{timezone}</small>
             </div>
             <img width={45} height={45} src={profile.avatar ? profile.avatar.url : "https://avatars.dicebear.com/api/male/rodrigo.svg?mood[]=happy"} alt={profile.name}/>
           </Profile>
