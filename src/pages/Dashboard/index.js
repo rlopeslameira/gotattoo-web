@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MdChevronLeft, MdChevronRight, MdPhoto, MdEventBusy } from 'react-icons/md';
 import {
-  format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore} from 'date-fns';
+  format, subDays, addDays, setHours, setMinutes, setSeconds, isBefore, parseISO
+} from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
+
 import pt from 'date-fns/locale/pt-BR';
 import { toast } from 'react-toastify';
 import Lightbox from 'react-image-lightbox';
@@ -24,6 +27,12 @@ function Dashboard() {
 
   useEffect(() => {
     async function loadSchedule() {
+
+      // const parsedDate = parseISO('2020-06-12 23:00:00');
+
+      // const znDate = zonedTimeToUtc(date, 'America/Sao_Paulo');
+
+      // console.log(znDate);
 
       const response = await api.get('/schedules', {
         params: { date: format(date, 'yyyy-MM-dd') }

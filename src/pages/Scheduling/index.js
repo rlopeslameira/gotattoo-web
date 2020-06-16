@@ -168,6 +168,9 @@ function Scheduling() {
               <div className="detalhes">
                 <strong >{time.time}</strong>
                 <span>{time.appointment ? time.appointment.client.name : 'Livre'}</span>
+                {time.appointment && (
+                  <span>{time.appointment.details}</span>
+                )}
               </div>
               {time.appointment && (
                 <Options>

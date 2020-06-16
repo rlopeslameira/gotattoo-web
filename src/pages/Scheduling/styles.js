@@ -123,6 +123,7 @@ export const Time = styled.li`
       margin-top: 3px;
       color: ${props => props.avaliable ? '#000' : '#FFF'} ;
       font-style: ${props => props.avaliable ? 'italic' : 'normal'} ;
+      white-space: break-spaces;
     }
   }
   
