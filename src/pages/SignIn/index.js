@@ -6,7 +6,7 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { signInRequest } from '../../store/modules/auth/actions';
-
+import {CreatedBy} from './styles';
 import logo from '../../assets/logo.png';
 
 const schema = Yup.object().shape({
@@ -33,6 +33,9 @@ function SignIn() {
         
         <button type="submit">{ loading ? 'Carregando...' : 'Acessar'}</button>
         <Link to="/register">Criar conta gratuita</Link>
+        <CreatedBy>
+          Created by <a href="https://github.com/rlopeslameira" target="_blank">Rodrigo Lopes</a> with React.js and Node.js
+        </CreatedBy>
       </Form>
     </>
   );
