@@ -26,14 +26,12 @@ function Dashboard() {
     async function loadSchedule() {
 
       const response = await api.get('/schedules', {
-        params: { date }
+        params: { date: format(date, 'yyyy-MM-dd') }
       });
 
       const schedulesList = response.data.map(item => ({
         ...item
       }));
-
-      console.log(schedulesList);
 
       const data = range.map(hour => {
         const compareDate = setSeconds(setMinutes(setHours(date, hour), 0), 0);
@@ -47,7 +45,7 @@ function Dashboard() {
             a.date === format(date, 'yyyy-MM-dd') && a.hour === `${hour}:00`
           )
         }
-      })
+      });
 
       setShcedule(data);
     }

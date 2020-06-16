@@ -24,7 +24,7 @@ function Scheduling() {
     async function loadSchedule() {
       const response = await api.get('/schedules', {
         params: {
-          date
+          date: format(date, 'yyyy-MM-dd')
         }
       });
 
@@ -47,7 +47,6 @@ function Scheduling() {
       });
 
       setShcedule(data);
-
     }
 
     loadSchedule();
